@@ -26,25 +26,23 @@ def getallCourses(request):
     dtc = TokenValidator(token)
     if dtc:
         items = Courses.objects.all()
-        if items.exists():
-            serializer = CourseSerializer(items,many ="True")
-            #serializer.data.pop("login_id")
-            for i in serializer.data:
-                #removing the login id from fields being returned to the client
-                i.pop("login_id") 
-            payload.update({
-                "values": serializer.data,
-                "code" : 200,
-                "message" : None,
-            })
-            return Response(payload)
-        else:
+        if not items.exists():
             payload.update({
                 "values": None,
                 "code" : 204,
                 "message" : "No courses",
             })
             return Response(payload)
+        serializer = CourseSerializer(items, many ="True")
+        #serializer.data.pop("login_id")
+        for i in serializer.data:
+            #removing the login id from fields being returned to the client
+            i.pop("login_id") 
+        payload.update({
+            "values": serializer.data,
+            "code" : 200,
+            "message" : None,
+        })
     return Response(payload)
 
 
@@ -364,7 +362,7 @@ def getSpecificModule(request):
     if dtc:
         items = Course_Modules.objects.filter( module_id = request.data.get("module_id"))
         if items.exists():
-            serializer = CourseModuleSerializer(items,many ="True")
+            serializer = CourseModuleSerializer(items,many =True)
             payload.update({
                 "values": (serializer.data)[0],
                 "code" : 200,

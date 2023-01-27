@@ -50,12 +50,6 @@ def getUsers(request):
     serializer = UserSerializer(items,many ="True")
     return Response(serializer.data)
 
-
-
-
-
-
-
 @api_view(['POST'])
 def signUp(request):
     """

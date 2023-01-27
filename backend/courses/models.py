@@ -4,13 +4,13 @@ from login.models import Person
 
 # Create your models here.
 
-class Courses( models.Model ):
+class Courses(models.Model):
 
     """
         This is the model holding the course name and primary details of the course
     """
     course_id = models.AutoField( primary_key = True)
-    course_name = models.CharField( max_length = field_sizes["name_string"], unique = True )
+    course_name = models.CharField(max_length=field_sizes["name_string"], unique=True)
     course_description = models.CharField( max_length = field_sizes["descriptive_string"] )
     login_id = models.ForeignKey(Person, on_delete = models.CASCADE)
     display_picture = models.ImageField( null = True )
